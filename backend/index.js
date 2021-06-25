@@ -4,10 +4,14 @@ const bodyParser = require('body-parser');
 
 const config = require('./utils/config');
 
+const primeRouter = require('./routes/primeRoute');
+
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/myapi', primeRouter);
 
 app.get('/ping', (req,res) => {
   res.send('<strong>Someone pinged here...</strong>');
