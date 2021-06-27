@@ -1,8 +1,4 @@
 const sumAndCheck = (numbers, callback) => {
-  // If numbers parameter or numbers are missing
-  if (!numbers) {
-    return callback({ 'status': 400, 'message': 'Numbers missing or invalid' });
-  }
   // Split numbers to array
   const inArray = numbers.split(',')
     // Convert characters to integers
@@ -18,18 +14,12 @@ const sumAndCheck = (numbers, callback) => {
 };
 
 const checkPrime = (number, callback) => {
-  const checkThis = parseInt(number);
-
-  // If the character is not a number return error
-  if (isNaN(checkThis)) {
-    return callback({ status: 400, message: 'Invalid number' });
   // Prime number is a natural number greater than 1
   // First prime number is 3
-  } else if (checkThis < 3) {
-    return callback({ status: 400, message: 'Prime number must be bigger than 2' });
+  if (number < 3) {
+    return { 'isPrime': false };
   }
-
-  callback(singlePrime(checkThis));
+  callback(singlePrime(number));
 };
 
 const singlePrime = num => {

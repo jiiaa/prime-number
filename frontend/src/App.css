@@ -39,7 +39,15 @@ input[type="submit"] {
   color: #fff;
 }
 
+input[type="submit"]:hover {
+  background-color: #214d9c;
+}
+
 .result {
   line-height: 1.3;
   color: #214d9c;
+}
+
+.error {
+  color: #fb9334;
 }

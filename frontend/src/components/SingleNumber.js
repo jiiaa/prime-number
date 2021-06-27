@@ -4,6 +4,7 @@ import primeService from '../services/primeNumber';
 const SingleNumber = () => {
   const [numberSingle, setNumberSingle] = useState('');
   const [result, setResult] = useState('');
+  const [errorGet, setErrorGet] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleInput = async (e) => {
@@ -21,8 +22,14 @@ const SingleNumber = () => {
       const res = await primeService.getNumberValidated(action, numberParam);
       setResult(res.data.isPrime);
     } catch (err) {
-      setErrorMessage(err.message);
-      setTimeout(() => {setErrorMessage('');}, 4000);
+      setErrorGet(true);
+      if (err.response.data.message) {
+        setErrorMessage(err.response.data.message);
+      }
+      setTimeout(() => {
+        setErrorGet(false);
+        setErrorMessage('');
+      }, 4000);
     }
   };
 
@@ -41,15 +48,15 @@ const SingleNumber = () => {
       </form>
       <div className="result">
         <div>Prime number:
-          {result === false ?
+          {result === true ?
             ' Yes' :
             ' Not'}
         </div>
       </div>
-      {errorMessage &&
+      {errorGet &&
         <div className="error">
           <div>Something went wrong...</div>
-          <div>{errorMessage}</div>
+          {errorMessage && <strong>{errorMessage}</strong>}
           <div>Please try again later.</div>
         </div>
       }
