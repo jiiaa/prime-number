@@ -6,7 +6,8 @@ router.get('/', (req, res) => {
   const action = req.query.action;
   const numbers = req.query.numbers;
   const number = parseInt(req.query.number);
-  console.log('numbers', numbers);
+  console.log('req.query:', req.query);
+  console.log('Action: %s Numbers: %s Number: %s', action, number, numbers);
   // Check if action is valid
   if (!action || (action !== 'sumandcheck' && action !== 'checkprime')) {
     return res.send('Action is missing or invalid');

@@ -6,6 +6,9 @@ import SingleNumber from './components/SingleNumber';
 function App() {
   return (
     <main className="App">
+      <header>
+        <h2>The Prime Number Application</h2>
+      </header>
       <section className="multinumbers">
         <MultiNumbers />
       </section>
