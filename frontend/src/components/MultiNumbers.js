@@ -4,6 +4,7 @@ import primeService from '../services/primeNumber';
 const MultiNumbers = () => {
   const [numberMulti, setNumberMulti] = useState('');
   const [result, setResult] = useState('');
+  const [errorGet, setErrorGet] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
@@ -14,9 +15,14 @@ const MultiNumbers = () => {
       const res = await primeService.getNumberValidated(action, numberParam);
       setResult(res.data);
     } catch (err) {
-      console.error((err.status));
-      setErrorMessage(err.message);
-      setTimeout(() => {setErrorMessage('');}, 4000);
+      setErrorGet(true);
+      if (err.response.data.message) {
+        setErrorMessage(err.response.data.message);
+      }
+      setTimeout(() => {
+        setErrorGet(false);
+        setErrorMessage('');
+      }, 4000);
     }
   };
 
@@ -38,10 +44,10 @@ const MultiNumbers = () => {
         <div>The sum of the numbers: {result.result}</div>
         <div>Prime number: {result.isPrime ? 'Yes': 'Not'}</div>
       </div>
-      {errorMessage &&
+      {errorGet &&
         <div className="error">
           <div>Something went wrong...</div>
-          <div>{errorMessage}</div>
+          {errorMessage && <strong>{errorMessage}</strong>}
           <div>Please try again later.</div>
         </div>
       }
