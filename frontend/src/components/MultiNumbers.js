@@ -2,19 +2,30 @@ import React, { useState } from 'react';
 import primeService from '../services/primeNumber';
 
 const MultiNumbers = () => {
-  const [numberMulti, setNumberMulti] = useState('');
-  const [result, setResult] = useState('');
-  const [errorGet, setErrorGet] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [numberMulti, setNumberMulti] = useState(''); // Form input
+  const [result, setResult] = useState({ result: '-', isPrime: '' }); // Result object from the backend
+  const [showResult, setShowResult] = useState ('hidden'); // Hide result when input changing
+  const [errorGet, setErrorGet] = useState(false); // Show/hide error element
+  const [errorMessage, setErrorMessage] = useState(''); // Error message from the backend
+
+  const handleInputChange = (e) => {
+    setShowResult('hidden'); // Hide result when input changes
+    setResult({ result: '-', isPrime: '' });
+    setNumberMulti(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Remove all whitespace characters
+    const numberString = numberMulti.replaceAll(/\s/g, '');
     const action = 'sumandcheck';
-    const numberParam = `numbers=${numberMulti}`;
+    const numberParam = `numbers=${numberString}`;
     try {
       const res = await primeService.getNumberValidated(action, numberParam);
+      setShowResult ('show');
       setResult(res.data);
     } catch (err) {
+      setShowResult('hidden'),
       setErrorGet(true);
       if (err.response.data.message) {
         setErrorMessage(err.response.data.message);
@@ -22,7 +33,7 @@ const MultiNumbers = () => {
       setTimeout(() => {
         setErrorGet(false);
         setErrorMessage('');
-      }, 4000);
+      }, 5000);
     }
   };
 
@@ -36,13 +47,23 @@ const MultiNumbers = () => {
           id="numbers"
           placeholder="1,2,3"
           value={numberMulti}
-          onChange={(e) => setNumberMulti(e.target.value)}
+          onChange={handleInputChange}
         />
         <input type="submit" value="Check" />
       </form>
       <div className="result">
-        <div>The sum of the numbers: {result.result}</div>
-        <div>Prime number: {result.isPrime ? 'Yes': 'Not'}</div>
+        <div className="result-multi">
+          <span className="label">The sum of the numbers:</span>
+          <span className="result-sum"> {result.result}</span>
+        </div>
+        <div className="prime-multi">
+          <span className="label">Prime number:</span>
+          <span className="result-prime"> { showResult === 'hidden'
+            ? '-' : result.isPrime
+              ? <span className="green">Yes</span>
+              : <span className="red">Not</span>
+          }</span>
+        </div>
       </div>
       {errorGet &&
         <div className="error">

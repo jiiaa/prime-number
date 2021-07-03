@@ -4,7 +4,6 @@ const baseApiUrl = '/myapi/';
 
 const getNumberValidated = async (action, number) => {
   const axiosUrl = `${baseApiUrl}?action=${action}&${number}`;
-  // return await axios.get(axiosUrl);
   return await axios.get(axiosUrl);
 };
 
