@@ -9,9 +9,21 @@ const MultiNumbers = () => {
   const [errorMessage, setErrorMessage] = useState(''); // Error message from the backend
 
   const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    const nonDigit = /[^0-9,]/; // Create a regex string
     setShowResult('hidden'); // Hide result when input changes
     setResult({ result: '-', isPrime: '' });
-    setNumberMulti(e.target.value);
+
+    if (nonDigit.test(inputValue)) {
+      setErrorMessage('Only numbers and commas allowed');
+      setErrorGet(true);
+      setTimeout(() => {
+        setErrorMessage('');
+        setErrorGet(false);
+      }, 4000);
+    } else {
+      setNumberMulti(inputValue);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -67,9 +79,9 @@ const MultiNumbers = () => {
       </div>
       {errorGet &&
         <div className="error">
-          <div>Something went wrong...</div>
+          <div>Oooops...</div>
           {errorMessage && <strong>{errorMessage}</strong>}
-          <div>Please try again later.</div>
+          <div>Please try again.</div>
         </div>
       }
     </div>

@@ -9,9 +9,22 @@ const SingleNumber = () => {
   const [errorMessage, setErrorMessage] = useState(''); // Error message from the backend
 
   const handleInputChange = async (e) => {
+    const inputValue = e.target.value;
+    const nonDigit = /[^0-9]/; // Create a regex string
     setShowResult('hidden'); // Hide result when input changes
     setResult('');
-    setNumberSingle(e.target.value);
+
+    // Check if the input contains non-number characters
+    if (nonDigit.test(inputValue)) {
+      setErrorMessage('Only numbers allowed');
+      setErrorGet(true);
+      setTimeout(() => {
+        setErrorMessage('');
+        setErrorGet(false);
+      }, 4000);
+    } else {
+      setNumberSingle(inputValue);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -60,9 +73,9 @@ const SingleNumber = () => {
       </div>
       {errorGet &&
         <div className="error">
-          <div>Something went wrong...</div>
+          <div>Oooops...</div>
           {errorMessage && <strong>{errorMessage}</strong>}
-          <div>Please try again later.</div>
+          <div>Please try again.</div>
         </div>
       }
     </div>
