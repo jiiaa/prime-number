@@ -37,6 +37,8 @@ Frontend
 
 ## Developing and Testing The Application
 
+### Developing
+
 First clone the repository. Next install the dependencies of the backend and the frontend.
 
     https://github.com/jiiaa/prime-number.git
@@ -51,6 +53,7 @@ When those are ready you can start the backend and the frontend by running comma
 
 There are some tests in the backend folder to test the endpoint/methods. There are also some test in the frontend for end-to-end testing.
 
+### Testing
 To run the test backend tests in the backedn folder:
 
 `npm test`
