@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import primeService from '../services/primeNumber';
+import Error from './Error';
+import Result from './Result';
 
 const MultiNumbers = () => {
   const [numberMulti, setNumberMulti] = useState(''); // Form input
@@ -63,27 +65,13 @@ const MultiNumbers = () => {
         />
         <input type="submit" value="Check" />
       </form>
-      <div className="result">
-        <div className="result-multi">
-          <span className="label">The sum of the numbers:</span>
-          <span className="result-sum"> {result.result}</span>
-        </div>
-        <div className="prime-multi">
-          <span className="label">Prime number:</span>
-          <span className="result-prime"> { showResult === 'hidden'
-            ? '-' : result.isPrime
-              ? <span className="green">Yes</span>
-              : <span className="red">Not</span>
-          }</span>
-        </div>
-      </div>
-      {errorGet &&
-        <div className="error">
-          <div>Oooops...</div>
-          {errorMessage && <strong>{errorMessage}</strong>}
-          <div>Please try again.</div>
-        </div>
-      }
+      <Result
+        sum={result.result}
+        isPrime={result.isPrime}
+        showResult={showResult}
+        multi
+      />
+      {errorGet && <Error message={errorMessage} />}
     </div>
   );
 };
