@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import primeService from '../services/primeNumber';
+import Error from './Error';
+import Result from './Result';
 
 const SingleNumber = () => {
   const [numberSingle, setNumberSingle] = useState(''); // Form input
@@ -63,21 +65,8 @@ const SingleNumber = () => {
         />
         <input type="submit" value="Check" />
       </form>
-      <div className="result">
-        <span className="label">Prime number:</span>
-        <span className="result-prime"> { showResult === 'hidden'
-          ? '-' : result
-            ? <span className="green">Yes</span>
-            : <span className="red">Not</span>
-        }</span>
-      </div>
-      {errorGet &&
-        <div className="error">
-          <div>Oooops...</div>
-          {errorMessage && <strong>{errorMessage}</strong>}
-          <div>Please try again.</div>
-        </div>
-      }
+      <Result isPrime={result} showResult={showResult} />
+      {errorGet && <Error message={errorMessage} />}
     </div>
   );
 };
